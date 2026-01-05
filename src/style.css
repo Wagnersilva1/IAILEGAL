@@ -1,0 +1,507 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap");
+
+:root {
+  --bg: #0b1116;
+  --bg-2: #101821;
+  --panel: #121b24;
+  --card: #16212b;
+  --line: rgba(255, 255, 255, 0.08);
+  --text: #ecf3f7;
+  --muted: #9fb0bb;
+  --accent: #34f5c5;
+  --accent-2: #ffb347;
+  --shadow: 0 20px 50px rgba(4, 8, 12, 0.45);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  color: var(--text);
+  background: radial-gradient(circle at 15% 15%, #1a2733 0%, transparent 40%),
+    radial-gradient(circle at 85% 20%, #13232b 0%, transparent 45%),
+    linear-gradient(135deg, #0a1015 0%, #0c141a 45%, #0d151c 100%);
+  padding: 24px clamp(16px, 4vw, 40px) 40px;
+}
+
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 1;
+}
+
+.preview {
+  position: fixed;
+  inset: 0;
+  pointer-events: auto;
+  background: rgba(7, 10, 14, 0.9);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.preview.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.preview-card {
+  text-align: center;
+  background: rgba(18, 26, 34, 0.96);
+  border: 1px solid rgba(52, 245, 197, 0.2);
+  padding: 22px 26px 18px;
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+
+.preview-card img {
+  width: min(280px, 70vw);
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: block;
+  margin: 0 auto 14px;
+}
+
+.preview-card p {
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-family: "JetBrains Mono", "Segoe UI", monospace;
+}
+
+.shell {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.brand h1 {
+  position: relative;
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-align: left;
+  left: -150px;
+}
+
+.brand {
+  position: relative;
+  margin-left: -24px;
+}
+
+.brand-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(52, 245, 197, 0.12);
+  color: var(--accent);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin-top: 8px;
+  font-family: "JetBrains Mono", "Segoe UI", monospace;
+  left: -135px;
+}
+
+.agent-status {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(18, 26, 34, 0.92);
+  border: 1px solid rgba(52, 245, 197, 0.2);
+  border-radius: 16px;
+  padding: 10px 14px;
+  box-shadow: var(--shadow);
+}
+
+.agent-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.agent-name {
+  font-weight: 600;
+}
+
+.status-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 12px;
+  font-family: "JetBrains Mono", "Segoe UI", monospace;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 12px rgba(52, 245, 197, 0.9);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 0.75fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.chat-card,
+.quick-questions {
+  background: rgba(18, 26, 34, 0.94);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+
+.chat-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.chat-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    rgba(52, 245, 197, 0.08),
+    transparent 40%
+  );
+  pointer-events: none;
+}
+
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.channel {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--muted);
+  margin-bottom: 6px;
+  font-family: "JetBrains Mono", "Segoe UI", monospace;
+}
+
+.chat-header h2 {
+  font-size: 1.35rem;
+}
+
+.ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: "JetBrains Mono", "Segoe UI", monospace;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ghost:hover {
+  border-color: rgba(52, 245, 197, 0.5);
+  color: var(--accent);
+}
+
+.chat-window {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 360px;
+  max-height: 600px;
+  overflow-y: auto;
+  padding-right: 6px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  position: relative;
+  z-index: 1;
+}
+
+.chat-window::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.message {
+  display: flex;
+  gap: 12px;
+  max-width: 78%;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: rise 0.35s ease forwards;
+}
+
+.message.user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.bubble {
+  background: var(--card);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 13px 16px;
+  font-size: 15px;
+  line-height: 1.5;
+  min-width: 140px;
+}
+
+.message.user .bubble {
+  background: linear-gradient(135deg, rgba(255, 179, 71, 0.9), #f0813d);
+  color: #2b1607;
+  border-bottom-right-radius: 6px;
+}
+
+.message .meta {
+  display: block;
+  margin-top: 8px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.55);
+  font-family: "JetBrains Mono", "Segoe UI", monospace;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.message.user .avatar {
+  display: none;
+}
+
+.typing {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  height: 16px;
+}
+
+.typing span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--muted);
+  animation: typing-bounce 1.05s ease-in-out infinite;
+}
+
+.typing span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.quick-questions {
+  position: relative;
+  max-width: 340px;
+  width: 100%;
+  justify-self: end;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.quick-questions::before {
+  content: "";
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(52, 245, 197, 0.6));
+}
+
+.section-head h2 {
+  font-size: 1.2rem;
+}
+
+.section-head p {
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+.filter-row {
+  margin-top: 12px;
+}
+
+.filter-row input {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(9, 14, 18, 0.6);
+  color: var(--text);
+  padding: 12px 14px;
+  font-size: 14px;
+}
+
+.filter-row input::placeholder {
+  color: var(--muted);
+}
+
+.question-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 14px;
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.question-grid::-webkit-scrollbar {
+  width: 8px;
+}
+
+.question-grid::-webkit-scrollbar-thumb {
+  background: rgba(52, 245, 197, 0.18);
+  border-radius: 999px;
+}
+
+.question-grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+  padding: 14px 0 6px;
+}
+
+.question-card {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 14px;
+  padding: 14px;
+  text-align: left;
+  color: var(--text);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: transform 0.2s ease, border 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.question-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(52, 245, 197, 0.4);
+  box-shadow: 0 12px 28px rgba(4, 8, 12, 0.35);
+}
+
+.question-card span {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-family: "JetBrains Mono", "Segoe UI", monospace;
+}
+
+.footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+  font-family: "JetBrains Mono", "Segoe UI", monospace;
+}
+
+@keyframes rise {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes typing-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(20px, -30px, 0);
+  }
+}
+
+
+
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .quick-questions {
+    max-width: none;
+    justify-self: stretch;
+  }
+}
+
+@media (max-width: 720px) {
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .message {
+    max-width: 92%;
+  }
+
+  .question-grid {
+    max-height: none;
+  }
+}
